@@ -76,60 +76,64 @@ function App() {
    const clickButtonTodos = (userId) => {
       userIdDynamic = userId;
       setTodosIsOpen(!todosIsOpen);
-      console.log(userIdDynamic);
+      console.log(
+         ususerTodos.map(userTodo => (
+            { user.id }</td >
+         }
+      );
 
 
-   };
-
-
-
-
-   const clickButtonPosts = userId => {
-      console.log('posts for user:', userId);
-   };
-
-   const clickButtonAlbums = userId => {
-      console.log('Albums for user:', userId);
-   };
+};
 
 
 
-   return (
-      <>
-         <table id="tableUsers" width="100%">
+
+const clickButtonPosts = userId => {
+   console.log('posts for user:', userId);
+};
+
+const clickButtonAlbums = userId => {
+   console.log('Albums for user:', userId);
+};
+
+
+
+return (
+   <>
+      <table id="tableUsers" width="100%">
+         <tr>
+            <th colspan="9">Users</th>
+         </tr>
+         <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>User name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Website</th>
+            <th>Company</th>
+            <th>Action</th>
+         </tr>
+         {users.map(user => (
             <tr>
-               <th colspan="9">Users</th>
+               <td>{user.id}</td>
+               <td>{user.name}</td>
+               <td>{user.username}</td>
+               <td>{user.email}</td>
+               <td>{user.address.city}</td>
+               <td>{user.phone}</td>
+               <td>{user.website}</td>
+               <td>{user.company.name}</td>
+               <td>
+                  <UserButtonTodos userId={user.id} onButtonClick={clickButtonTodos} />
+                  <UserButtonPosts userId={user.id} onButtonClick={clickButtonPosts} />
+                  <UserButtonAlbums userId={user.id} onButtonClick={clickButtonAlbums} />
+               </td>
             </tr>
-            <tr>
-               <th>Id</th>
-               <th>Name</th>
-               <th>User name</th>
-               <th>Email</th>
-               <th>Address</th>
-               <th>Phone</th>
-               <th>Website</th>
-               <th>Company</th>
-               <th>Action</th>
-            </tr>
-            {users.map(user => (
-               <tr>
-                  <td>{user.id}</td>
-                  <td>{user.name}</td>
-                  <td>{user.username}</td>
-                  <td>{user.email}</td>
-                  <td>{user.address.city}</td>
-                  <td>{user.phone}</td>
-                  <td>{user.website}</td>
-                  <td>{user.company.name}</td>
-                  <td>
-                     <UserButtonTodos userId={user.id} onButtonClick={clickButtonTodos} />
-                     <UserButtonPosts userId={user.id} onButtonClick={clickButtonPosts} />
-                     <UserButtonAlbums userId={user.id} onButtonClick={clickButtonAlbums} />
-                  </td>
-               </tr>
-            ))}
-         </table>
-      </>)
+         ))}
+      </table>
+   </>)
 };
 
 export default App;
