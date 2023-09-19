@@ -36,5 +36,13 @@ th {
 }
 
 #table-wrapper {
-  
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.result1,
+.result2 {
+  width: 100%;
 }
