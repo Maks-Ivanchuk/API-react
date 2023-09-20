@@ -8,6 +8,7 @@ body {
   background-color: #1a1a1a;
   color: #ffffffd9;
   padding: 0 50px;
+  position: relative;
 }
 
 code {

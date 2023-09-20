@@ -35,6 +35,34 @@ th {
   background-color: #ffa62a;
 }
 
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+}
+
+.test {
+  display: flex;
+  gap: 20px;
+  background-color: rgb(29, 135, 228);
+  padding: 25px;
+}
+
+.test p {
+  color: #fff;
+  font-size: 25px;
+  font-weight: 500;
+}
+
+.test-btn {
+  background-color: #cf9f9f;
+}
+
 #table-wrapper {
   width: 100%;
   display: flex;

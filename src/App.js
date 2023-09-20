@@ -1,28 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
-function ButtonTodos() {
+function ButtonTodos({ sign, onBtnClick }) {
 
    return (
       <>
-         <button className="button" style={{ color: "black", fontSize: "25px" }} onClick={ButtonClick}>Кнопка 1</button>
+         <button className="test-btn" onClick={() => onBtnClick(sign)}>Counter {sign}</button>
       </>
    )
 }
 
-function ButtonClick(event) {
-   let target = event.target;
-
-   if (target.classList.contains("button")) {
-      console.log('true');
-   }
-}
 
 function App() {
+   const [counterBtnClick, setCounterBtnClick] = useState(0);
+
+   const BtnCounterClick = (sign) => {
+      if (sign === '+') {
+         setCounterBtnClick(prevCounter => prevCounter + 1);
+      } else if (sign === '-') {
+         setCounterBtnClick(prevCounter => prevCounter - 1);
+      }
+   }
 
    return (
       <div className='test'>
-         <ButtonTodos />
+         <ButtonTodos sign='+' onBtnClick={BtnCounterClick} />
+         <p>{counterBtnClick}</p>
+         <ButtonTodos sign='-' onBtnClick={BtnCounterClick} />
       </div>
    )
 };
