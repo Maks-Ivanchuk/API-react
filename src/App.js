@@ -102,7 +102,7 @@ function App() {
                      <td>{todo.userId}</td>
                      <td>{todo.id}</td>
                      <td>{todo.title}</td>
-                     <td>{todo.completed === false ? "false": "true"}</td>
+                     <td>{todo.completed.toString()}</td>
                   </tr>
                ))}
             </tbody>
