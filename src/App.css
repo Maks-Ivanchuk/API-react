@@ -37,15 +37,22 @@ th {
 
 #table-wrapper {
   margin-top: 25px;
+  margin-bottom: 25px;
   display: flex;
   flex-direction: column;
   gap: 25px;
 }
 
 #tableUsers {
-  width: 100%;
+  min-width: 782px;
+  max-width: 100%;
 }
 
 #result1 {
-  width: 100%;
+    min-width: 782px;
+    max-width: 100%;
+}
+
+.table-title{
+  color: red;
 }
