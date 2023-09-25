@@ -42,6 +42,10 @@ th {
   gap: 25px;
 }
 
-#result1{
+#tableUsers {
+  width: 100%;
+}
+
+#result1 {
   width: 100%;
 }
