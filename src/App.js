@@ -12,7 +12,7 @@ function App() {
       );
    };
 
-   function ButtonComents({ children, className, onClick, typeRequest }) { 
+   function ButtonComents({ children, className, onClick, typeRequest }) {
       return (
          <button className={className} onClick={() => onClick(typeRequest)}>
             {children}
@@ -20,7 +20,7 @@ function App() {
       )
    }
 
-   function ButtonAlbums({ children, className }) { 
+   function ButtonAlbums({ children, className }) {
       return (
          <button className={className}>
             {children}
@@ -43,15 +43,15 @@ function App() {
       }
    }
 
-// ---------------------------------------------------------------------------
-   function handleOpenRes2( typeRequest) {
+   // ---------------------------------------------------------------------------
+   function handleOpenRes2(typeRequest) {
       setCurrentTypeRequest(typeRequest); //спробую з одним typeRequest
       if (res2IsOpen === false) {
          setRes2IsOpen(!res2IsOpen)
       }
    }
-// ---------------------------------------------------------------------------
-   
+   // ---------------------------------------------------------------------------
+
    const [users, setUsers] = useState([]);
 
    useEffect(() => {
@@ -146,7 +146,7 @@ function App() {
             <table id="result1" style={displayStyleRes1}>
                <thead>
                   <tr>
-                     <th colSpan = "5" className='table-title'>Posts user: {currentUserId}</th>
+                     <th colSpan="5" className='table-title'>Posts user: {currentUserId}</th>
                   </tr>
                   <tr>
                      <th>User id</th>
@@ -154,7 +154,7 @@ function App() {
                      <th>Title</th>
                      <th>Body</th>
                      <th>Action</th>
-                     </tr>
+                  </tr>
                </thead>
                <tbody>
                   {posts.map(post => (
@@ -164,7 +164,7 @@ function App() {
                         <td>{post.title}</td>
                         <td>{post.body}</td>
                         <td>
-                           <ButtonComents className={"btn-todos button button--info"} onClick={handleOpenRes2}  typeRequest={'coments'}>
+                           <ButtonComents className={"btn-todos button button--info"} onClick={handleOpenRes2} typeRequest={'coments'}>
                               Coments
                            </ButtonComents>
                         </td>
@@ -178,7 +178,7 @@ function App() {
             <table id="result1" style={displayStyleRes1}>
                <thead>
                   <tr>
-                     <th colSpan = "4" className='table-title'>Albums  user: {currentUserId}</th>
+                     <th colSpan="4" className='table-title'>Albums  user: {currentUserId}</th>
                   </tr>
                   <tr>
                      <th>User id</th>
@@ -206,12 +206,12 @@ function App() {
       };
    };
 
-   function Result2() { 
+   function Result2() {
       if (currentTypeRequest === 'coments') {
          return (
             <h2 style={displayStyleRes2}>coments</h2>
          )
-      } else if (currentTypeRequest === 'photo') { 
+      } else if (currentTypeRequest === 'photo') {
          // <table id="result2" style={displayStyleRes2}></table>
          <h2>photo</h2>
       }
