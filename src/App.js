@@ -12,7 +12,7 @@ function App() {
       );
    };
 
-   function ButtonComents({ children, className, onClick, typeRequest }) {
+   function ButtonForRes2({ children, className, onClick, typeRequest }) {
       return (
          <button className={className} onClick={() => onClick(typeRequest)}>
             {children}
@@ -20,24 +20,30 @@ function App() {
       )
    }
 
-   function ButtonAlbums({ children, className }) {
-      return (
-         <button className={className}>
-            {children}
-         </button>
-      )
-   }
+   // function ButtonAlbums({ children, className }) {
+   //    return (
+   //       <button className={className}>
+   //          {children}
+   //       </button>
+   //    )
+   // }
 
    const [currentUserId, setCurrentUserId] = useState('');
-   const [currentTypeRequest, setCurrentTypeRequest] = useState('');
+   const [currentTypeRequestRes1, setCurrentTypeRequestRes1] = useState('');
+   const [currentTypeRequestRes2, setCurrentTypeRequestRes2] = useState('');
    const [res1IsOpen, setRes1IsOpen] = useState(false);
    const [res2IsOpen, setRes2IsOpen] = useState(false);
-   const displayStyleRes1 = res1IsOpen ? { display: 'inline-table' } : { display: 'none' };
-   const displayStyleRes2 = res2IsOpen ? { display: 'inline-table' } : { display: 'none' };
+   let displayStyleRes1 = res1IsOpen ? { display: 'inline-table' } : { display: 'none' };
+   let displayStyleRes2 = res2IsOpen ? { display: 'inline-table' } : { display: 'none' };
 
    function handleOpenRes1(userId, typeRequest) {
-      setCurrentTypeRequest(typeRequest);
+      setCurrentTypeRequestRes1(typeRequest);
       setCurrentUserId(userId);
+
+      if (res2IsOpen === true) {
+         setRes2IsOpen(!res2IsOpen);
+      }
+
       if (res1IsOpen === false) {
          setRes1IsOpen(!res1IsOpen)
       }
@@ -45,7 +51,7 @@ function App() {
 
    // ---------------------------------------------------------------------------
    function handleOpenRes2(typeRequest) {
-      setCurrentTypeRequest(typeRequest); //спробую з одним typeRequest
+      setCurrentTypeRequestRes2(typeRequest); //спробую з одним typeRequest
       if (res2IsOpen === false) {
          setRes2IsOpen(!res2IsOpen)
       }
@@ -114,8 +120,44 @@ function App() {
          })
    }, [currentUserId]);
 
+   const [comments, setComments] = useState([]);
+
+   useEffect(() => {
+      if (currentUserId === '') {
+         return
+      }
+
+      fetch(`https://jsonplaceholder.typicode.com/posts/${currentUserId}/comments`)
+         .then(response => response.json())
+         .then(comments => {
+            if (Object.keys(comments).length > 0) {
+               setComments(comments);
+            } else {
+               return
+            }
+         })
+   }, [currentUserId]);
+
+   const [photos, setPhotos] = useState([]);
+
+   useEffect(() => {
+      if (currentUserId === '') {
+         return
+      }
+
+      fetch(`https://jsonplaceholder.typicode.com/albums/${currentUserId}/photos`)
+         .then(response => response.json())
+         .then(photos => {
+            if (Object.keys(photos).length > 0) {
+               setPhotos(photos);
+            } else {
+               return
+            }
+         })
+   }, [currentUserId]);
+
    function Result1({ todos, posts, albums }) {
-      if (currentTypeRequest === 'todos') {
+      if (currentTypeRequestRes1 === 'todos') {
          return (
             <table id="result1" style={displayStyleRes1}>
                <thead>
@@ -141,7 +183,7 @@ function App() {
                </tbody>
             </table>
          );
-      } else if (currentTypeRequest === 'posts') {
+      } else if (currentTypeRequestRes1 === 'posts') {
          return (
             <table id="result1" style={displayStyleRes1}>
                <thead>
@@ -164,16 +206,16 @@ function App() {
                         <td>{post.title}</td>
                         <td>{post.body}</td>
                         <td>
-                           <ButtonComents className={"btn-todos button button--info"} onClick={handleOpenRes2} typeRequest={'coments'}>
+                           <ButtonForRes2 className={"btn-todos button button--info"} onClick={handleOpenRes2} typeRequest={'coments'}>
                               Coments
-                           </ButtonComents>
+                           </ButtonForRes2>
                         </td>
                      </tr>
                   ))}
                </tbody>
             </table>
          )
-      } else if (currentTypeRequest === 'albums') {
+      } else if (currentTypeRequestRes1 === 'albums') {
          return (
             <table id="result1" style={displayStyleRes1}>
                <thead>
@@ -194,9 +236,9 @@ function App() {
                         <td>{album.id}</td>
                         <td>{album.title}</td>
                         <td>
-                           <ButtonAlbums className={"btn-todos button button--warning"}>
+                           <ButtonForRes2 className={"btn-todos button button--warning"} onClick={handleOpenRes2} typeRequest={'photo'}>
                               Photo
-                           </ButtonAlbums>
+                           </ButtonForRes2>
                         </td>
                      </tr>
                   ))}
@@ -206,16 +248,67 @@ function App() {
       };
    };
 
-   function Result2() {
-      if (currentTypeRequest === 'coments') {
+   function Result2({ comments, photos }) {
+      if (currentTypeRequestRes2 === 'coments') {
          return (
-            <h2 style={displayStyleRes2}>coments</h2>
+            <table id="result2" style={displayStyleRes2}>
+               <thead>
+                  <tr>
+                     <th colSpan="5" className='table-title'>Comments user: {currentUserId}</th>
+                  </tr>
+                  <tr>
+                     <th>Post id</th>
+                     <th>Id</th>
+                     <th>Name</th>
+                     <th>Email</th>
+                     <th>Body</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {comments.map(comment => (
+                     <tr key={comment.id}>
+                        <td>{comment.postId}</td>
+                        <td>{comment.id}</td>
+                        <td>{comment.name}</td>
+                        <td>{comment.email}</td>
+                        <td>{comment.body}</td>
+                     </tr>
+                  ))}
+               </tbody>
+            </table>
          )
-      } else if (currentTypeRequest === 'photo') {
-         // <table id="result2" style={displayStyleRes2}></table>
-         <h2>photo</h2>
-      }
-   }
+      } else if (currentTypeRequestRes2 === 'photo') {
+         return (
+            <table id="result2" style={displayStyleRes2}>
+               <thead>
+                  <tr>
+                     <th colSpan="5" className='table-title'>Photo user: {currentUserId}</th>
+                  </tr>
+                  <tr>
+                     <th>Album id</th>
+                     <th>Id</th>
+                     <th>Title</th>
+                     <th>Url</th>
+                     <th>ThumbnailUrl</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {photos.map(photo => (
+                     <tr key={photo.id}>
+                        <td>{photo.albumId}</td>
+                        <td>{photo.id}</td>
+                        <td>{photo.title}</td>
+                        <td>{photo.url}</td>
+                        <td>
+                           <img src={photo.thumbnailUrl} alt={photo.id} />
+                        </td>
+                     </tr>
+                  ))}
+               </tbody>
+            </table>
+         );
+      };
+   };
 
    return (
       <div id="table-wrapper">
@@ -259,7 +352,7 @@ function App() {
             </tbody>
          </table>
          <Result1 todos={todos} posts={posts} albums={albums} />
-         <Result2 />
+         <Result2 comments={comments} photos={photos} />
       </div>
    )
 };

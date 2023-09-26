@@ -49,10 +49,15 @@ th {
 }
 
 #result1 {
-    min-width: 782px;
-    max-width: 100%;
+  min-width: 782px;
+  max-width: 100%;
 }
 
-.table-title{
+#result2 {
+  min-width: 782px;
+  max-width: 100%;
+}
+
+.table-title {
   color: red;
 }
