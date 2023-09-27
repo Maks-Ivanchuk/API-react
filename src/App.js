@@ -18,16 +18,8 @@ function App() {
             {children}
          </button>
       )
-   }
-
-   // function ButtonAlbums({ children, className }) {
-   //    return (
-   //       <button className={className}>
-   //          {children}
-   //       </button>
-   //    )
-   // }
-
+   };
+   
    const [currentUserId, setCurrentUserId] = useState('');
    const [currentTypeRequestRes1, setCurrentTypeRequestRes1] = useState('');
    const [currentTypeRequestRes2, setCurrentTypeRequestRes2] = useState('');
@@ -47,16 +39,14 @@ function App() {
       if (res1IsOpen === false) {
          setRes1IsOpen(!res1IsOpen)
       }
-   }
+   };
 
-   // ---------------------------------------------------------------------------
    function handleOpenRes2(typeRequest) {
-      setCurrentTypeRequestRes2(typeRequest); //спробую з одним typeRequest
+      setCurrentTypeRequestRes2(typeRequest);
       if (res2IsOpen === false) {
          setRes2IsOpen(!res2IsOpen)
       }
-   }
-   // ---------------------------------------------------------------------------
+   };
 
    const [users, setUsers] = useState([]);
 
@@ -71,7 +61,7 @@ function App() {
    useEffect(() => {
       if (currentUserId === '') {
          return
-      }
+      };
 
       fetch(`https://jsonplaceholder.typicode.com/users/${currentUserId}/todos`)
          .then(response => response.json())
