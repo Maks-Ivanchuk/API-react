@@ -19,7 +19,7 @@ function App() {
          </button>
       )
    };
-   
+
    const [currentUserId, setCurrentUserId] = useState('');
    const [currentTypeRequestRes1, setCurrentTypeRequestRes1] = useState('');
    const [currentTypeRequestRes2, setCurrentTypeRequestRes2] = useState('');
@@ -301,49 +301,58 @@ function App() {
    };
 
    return (
-      <div id="table-wrapper">
-         <table id="tableUsers">
-            <thead>
-               <tr>
-                  <th colSpan="9" className='table-title'>Users</th>
-               </tr>
-               <tr>
-                  <th>Id</th>
-                  <th>Name</th>
-                  <th>User name</th>
-                  <th>Email</th>
-                  <th>Address</th>
-                  <th>Phone</th>
-                  <th>Website</th>
-               </tr>
-            </thead>
-            <tbody>
-               {users.map(user => (
-                  <tr key={user.id}>
-                     <td>{user.id}</td>
-                     <td>{user.name}</td>
-                     <td>{user.username}</td>
-                     <td>{user.email}</td>
-                     <td>{user.address.city}</td>
-                     <td>{user.phone}</td>
-                     <td>
-                        <Button className={"btn-todos button button--danger"} onClick={handleOpenRes1} userId={user.id} typeRequest={'todos'}>
-                           Todos
-                        </Button>
-                        <Button className={"btn-posts button button--info"} onClick={handleOpenRes1} userId={user.id} typeRequest={'posts'}>
-                           Posts
-                        </Button>
-                        <Button className={"btn-albums button button--warning"} onClick={handleOpenRes1} userId={user.id} typeRequest={'albums'}>
-                           Albums
-                        </Button>
-                     </td>
+      <>
+         <div id="table-wrapper">
+            <table id="tableUsers">
+               <thead>
+                  <tr>
+                     <th colSpan="9" className='table-title'>Users</th>
                   </tr>
-               ))}
-            </tbody>
-         </table>
-         <Result1 todos={todos} posts={posts} albums={albums} />
-         <Result2 comments={comments} photos={photos} />
-      </div>
+                  <tr>
+                     <th>Id</th>
+                     <th>Name</th>
+                     <th>User name</th>
+                     <th>Email</th>
+                     <th>Address</th>
+                     <th>Phone</th>
+                     <th>Website</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {users.map(user => (
+                     <tr key={user.id}>
+                        <td>{user.id}</td>
+                        <td>{user.name}</td>
+                        <td>{user.username}</td>
+                        <td>{user.email}</td>
+                        <td>{user.address.city}</td>
+                        <td>{user.phone}</td>
+                        <td>
+                           <Button className={"btn-todos button button--danger"} onClick={handleOpenRes1} userId={user.id} typeRequest={'todos'}>
+                              Todos
+                           </Button>
+                           <Button className={"btn-posts button button--info"} onClick={handleOpenRes1} userId={user.id} typeRequest={'posts'}>
+                              Posts
+                           </Button>
+                           <Button className={"btn-albums button button--warning"} onClick={handleOpenRes1} userId={user.id} typeRequest={'albums'}>
+                              Albums
+                           </Button>
+                        </td>
+                     </tr>
+                  ))}
+               </tbody>
+            </table>
+            <div id='modal' className='modalWindow modalWindow--active'>
+               <Result1 todos={todos} posts={posts} albums={albums} />
+               <Result2 comments={comments} photos={photos} />
+            </div>
+
+            {/* <Result1 todos={todos} posts={posts} albums={albums} />
+            <Result2 comments={comments} photos={photos} /> */}
+
+         </div>
+         <div id="overlay" className='overlay'></div>
+      </>
    )
 };
 
