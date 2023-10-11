@@ -82,12 +82,9 @@ function App() {
       };
    };
 
-
-
    function Modal({ todos, posts, albums, comments, photos }) {
       let modalWindowClass = modalOpen ? 'modalWindow modalWindow--active' : 'modalWindow';
       let overlayClass = overlayOpen ? 'overlay overlay--active' : 'overlay';
-
 
       return (
          <>
@@ -359,9 +356,6 @@ function App() {
          );
       };
    };
-
-
-
 
    return (
       <>
