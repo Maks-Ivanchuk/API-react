@@ -25,27 +25,85 @@ function App() {
    const [currentTypeRequestRes2, setCurrentTypeRequestRes2] = useState('');
    const [res1IsOpen, setRes1IsOpen] = useState(false);
    const [res2IsOpen, setRes2IsOpen] = useState(false);
+   const [modalOpen, setModalOpen] = useState(false);
+   const [overlayOpen, setOverlaylOpen] = useState(false);
    let displayStyleRes1 = res1IsOpen ? { display: 'inline-table' } : { display: 'none' };
    let displayStyleRes2 = res2IsOpen ? { display: 'inline-table' } : { display: 'none' };
 
    function handleOpenRes1(userId, typeRequest) {
+      document.querySelector('body').style.overflow = 'hidden';
       setCurrentTypeRequestRes1(typeRequest);
       setCurrentUserId(userId);
 
       if (res2IsOpen === true) {
-         setRes2IsOpen(!res2IsOpen);
-      }
-
+         //    setRes2IsOpen(!res2IsOpen);
+         // };
+      };
       if (res1IsOpen === false) {
-         setRes1IsOpen(!res1IsOpen)
-      }
+         setRes1IsOpen(!res1IsOpen);
+         setModalOpen(!modalOpen);
+         setOverlaylOpen(!overlayOpen);
+      };
    };
 
    function handleOpenRes2(typeRequest) {
       setCurrentTypeRequestRes2(typeRequest);
+
+      if (res1IsOpen === true) {
+         setRes1IsOpen(!res1IsOpen);
+      };
+
       if (res2IsOpen === false) {
-         setRes2IsOpen(!res2IsOpen)
-      }
+         setRes2IsOpen(!res2IsOpen);
+      };
+   };
+
+   function handleCloseModalWindow(event) {
+      if (event.target.classList.contains('close-icon')
+         || event.target.classList.contains('close-icon__line')) {
+         console.log(event.target.className);
+
+         if (res1IsOpen === true) {
+            setRes1IsOpen(!res1IsOpen);
+            setModalOpen(!modalOpen);
+            setOverlaylOpen(!overlayOpen);
+            document.querySelector('body').style.overflow = '';
+         };
+
+         if (res2IsOpen === true) {
+            setRes2IsOpen(!res2IsOpen);
+            setRes1IsOpen(!res1IsOpen);
+         };
+      } else if (event.target.classList.contains('overlay')) {
+         setRes1IsOpen(false);
+         setRes2IsOpen(false);
+         setModalOpen(false);
+         setOverlaylOpen(false);
+      };
+   };
+
+
+
+   function Modal({ todos, posts, albums, comments, photos }) {
+      let modalWindowClass = modalOpen ? 'modalWindow modalWindow--active' : 'modalWindow';
+      let overlayClass = overlayOpen ? 'overlay overlay--active' : 'overlay';
+
+
+      return (
+         <>
+            <div id='modal' className={modalWindowClass}>
+               <div className='modalWindow__close'>
+                  <div className='close-icon' onClick={handleCloseModalWindow}>
+                     <span className="close-icon__line"></span>
+                     <span className="close-icon__line"></span>
+                  </div>
+               </div>
+               <Result1 todos={todos} posts={posts} albums={albums} />
+               <Result2 comments={comments} photos={photos} />
+            </div>
+            <div id="overlay" className={overlayClass} onClick={handleCloseModalWindow}></div>
+         </>
+      );
    };
 
    const [users, setUsers] = useState([]);
@@ -175,35 +233,37 @@ function App() {
          );
       } else if (currentTypeRequestRes1 === 'posts') {
          return (
-            <table id="result1" style={displayStyleRes1}>
-               <thead>
-                  <tr>
-                     <th colSpan="5" className='table-title'>Posts user: {currentUserId}</th>
-                  </tr>
-                  <tr>
-                     <th>User id</th>
-                     <th>Id</th>
-                     <th>Title</th>
-                     <th>Body</th>
-                     <th>Action</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  {posts.map(post => (
-                     <tr key={post.id}>
-                        <td>{post.userId}</td>
-                        <td>{post.id}</td>
-                        <td>{post.title}</td>
-                        <td>{post.body}</td>
-                        <td>
-                           <ButtonForRes2 className={"btn-todos button button--info"} onClick={handleOpenRes2} typeRequest={'coments'}>
-                              Coments
-                           </ButtonForRes2>
-                        </td>
+            <>
+               <table id="result1" style={displayStyleRes1}>
+                  <thead>
+                     <tr>
+                        <th colSpan="5" className='table-title'>Posts user: {currentUserId}</th>
                      </tr>
-                  ))}
-               </tbody>
-            </table>
+                     <tr>
+                        <th>User id</th>
+                        <th>Id</th>
+                        <th>Title</th>
+                        <th>Body</th>
+                        <th>Action</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     {posts.map(post => (
+                        <tr key={post.id}>
+                           <td>{post.userId}</td>
+                           <td>{post.id}</td>
+                           <td>{post.title}</td>
+                           <td>{post.body}</td>
+                           <td>
+                              <ButtonForRes2 className={"btn-todos button button--info"} onClick={handleOpenRes2} typeRequest={'coments'}>
+                                 Coments
+                              </ButtonForRes2>
+                           </td>
+                        </tr>
+                     ))}
+                  </tbody>
+               </table>
+            </>
          )
       } else if (currentTypeRequestRes1 === 'albums') {
          return (
@@ -300,6 +360,9 @@ function App() {
       };
    };
 
+
+
+
    return (
       <>
          <div id="table-wrapper">
@@ -342,16 +405,8 @@ function App() {
                   ))}
                </tbody>
             </table>
-            <div id='modal' className='modalWindow modalWindow--active'>
-               <Result1 todos={todos} posts={posts} albums={albums} />
-               <Result2 comments={comments} photos={photos} />
-            </div>
-
-            {/* <Result1 todos={todos} posts={posts} albums={albums} />
-            <Result2 comments={comments} photos={photos} /> */}
-
+            <Modal todos={todos} posts={posts} albums={albums} comments={comments} photos={photos} res1IsOpen={res1IsOpen} modalOpen={modalOpen} overlayOpen={overlayOpen} />
          </div>
-         <div id="overlay" className='overlay'></div>
       </>
    )
 };
